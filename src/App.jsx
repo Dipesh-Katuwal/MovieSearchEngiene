@@ -6,7 +6,7 @@ import Favourites from "./pages/Favourites";
 import { useEffect, useState } from "react";
 import { getPopularMovies, searchingMovies } from "./components/api calls/apis";
 import Loader from "./components/Loader";
-import MovieDetails from './pages/MovieDetails'
+import MovieDetails from "./pages/MovieDetails";
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -23,26 +23,31 @@ function App() {
     );
   }
 
-  const router = createBrowserRouter([
+  const router = createBrowserRouter(
+    [
+      {
+        element: <Layout />,
+        children: [
+          {
+            path: "/Home",
+            element: <Home movies={movies} setSearch={setSearch} />,
+          },
+          {
+            path: "/",
+            element: <Home movies={movies} setSearch={setSearch} />,
+          },
+          { path: "/favourites", element: <Favourites /> },
+          {
+            path: "/movie/:movieId",
+            element: <MovieDetails />,
+          },
+        ],
+      },
+    ],
     {
-      element: <Layout />,
-      children: [
-        {
-          path: "/Home",
-          element: <Home movies={movies} setSearch={setSearch} />,
-        },
-        {
-          path: "/",
-          element: <Home movies={movies} setSearch={setSearch} />,
-        },
-        { path: "/favourites", element: <Favourites /> },
-        {
-          path: "/movie/:movieId",
-          element: <MovieDetails />,
-        },
-      ],
+      basename: "/MovieSearchEngiene",
     },
-  ]);
+  );
 
   async function loadPopularMovies() {
     setLoading(true);
