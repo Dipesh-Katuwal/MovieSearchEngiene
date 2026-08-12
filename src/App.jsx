@@ -1,6 +1,6 @@
 import "./App.css";
 import NavBar from "./components/NavBar";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Favourites from "./pages/Favourites";
 import { useEffect, useState } from "react";
@@ -15,39 +15,20 @@ function App() {
   const [search, setSearch] = useState("");
 
   function Layout() {
-    return (
-      <>
-        <NavBar loadPopularMovies={loadPopularMovies} />
-        {loading ? <Loader /> : <Outlet />}
-      </>
-    );
-  }
-
-  const router = createBrowserRouter(
-    [
-      {
-        element: <Layout />,
-        children: [
-          {
-            path: "/Home",
-            element: <Home movies={movies} setSearch={setSearch} />,
-          },
-          {
-            path: "/",
-            element: <Home movies={movies} setSearch={setSearch} />,
-          },
-          { path: "/favourites", element: <Favourites /> },
-          {
-            path: "/movie/:movieId",
-            element: <MovieDetails />,
-          },
-        ],
-      },
-    ],
-    {
-      basename: "/MovieSearchEngiene",
-    },
+  return (
+    <>
+      <NavBar loadPopularMovies={loadPopularMovies} />
+      {loading ? <Loader /> : <Routes>
+        <Route path="/" element={<Home movies={movies} setSearch={setSearch} />} />
+        <Route path="/Home" element={<Home movies={movies} setSearch={setSearch} />} />
+        <Route path="/favourites" element={<Favourites />} />
+        <Route path="/movie/:movieId" element={<MovieDetails />} />
+      </Routes>}
+    </>
   );
+}
+
+  
 
   async function loadPopularMovies() {
     setLoading(true);
@@ -84,7 +65,11 @@ function App() {
     searchMovies();
   }, [search]);
 
-  return <RouterProvider router={router} />;
+  return (
+  <HashRouter>
+    <Layout />
+  </HashRouter>
+);
 }
 
 export default App;
