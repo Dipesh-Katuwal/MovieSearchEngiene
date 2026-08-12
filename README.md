@@ -1,5 +1,7 @@
 # Movie Search Engine
 
+🔗 **[Live Demo](https://dipesh-katuwal.github.io/MovieSearchEngiene/)**
+
 A movie discovery app built with React, Vite, React Router, and the [TMDB API](https://www.themoviedb.org/documentation/api). Browse popular movies, search by title, open a details page, and save favourites.
 
 ## Features
